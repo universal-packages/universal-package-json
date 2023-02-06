@@ -1,4 +1,4 @@
-# Crypto utils
+# Package Json
 
 [![npm version](https://badge.fury.io/js/@universal-packages%2Fpackage-json.svg)](https://www.npmjs.com/package/@universal-packages/package-json)
 [![Testing](https://github.com/universal-packages/universal-package-json/actions/workflows/testing.yml/badge.svg)](https://github.com/universal-packages/universal-package-json/actions/workflows/testing.yml)
