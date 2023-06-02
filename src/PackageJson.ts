@@ -1,6 +1,7 @@
 import { PackageJson as PJType } from 'type-fest'
-import { readPackageJson } from './readPackageJson'
+
 import { DependencyType } from './PackageJson.types'
+import { readPackageJson } from './readPackageJson'
 
 export default class PackageJson {
   public name: string
