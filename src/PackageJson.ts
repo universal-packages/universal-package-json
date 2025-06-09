@@ -1,13 +1,14 @@
+import fs from 'fs'
+import path from 'path'
 import { PackageJson as PJType } from 'type-fest'
 
 import { DependencyType } from './PackageJson.types'
-import { readPackageJson } from './readPackageJson'
 
-export default class PackageJson {
-  public name: string
-  public version: string
+export class PackageJson {
+  public name: string = ''
+  public version: string = ''
 
-  public json: PJType
+  public json: PJType = {}
 
   public flatDependencies: Record<string, PackageJson> = {}
 
@@ -18,7 +19,7 @@ export default class PackageJson {
   public bundleDependencies: Record<string, PackageJson> = {}
   public optionalDependencies: Record<string, PackageJson> = {}
 
-  private fixedName: string
+  private fixedName?: string
   private isRoot = true
 
   public constructor(name?: string) {
@@ -28,10 +29,22 @@ export default class PackageJson {
   }
 
   public read(): void {
-    const contents = readPackageJson(this.fixedName)
-    this.name = contents.name
-    this.version = contents.version
-    this.json = contents
+    let finalLocation = './package.json'
+    let finalInfo: PJType = {}
+
+    if (this.fixedName) {
+      finalLocation = path.join('./node_modules', this.fixedName, 'package.json')
+    }
+
+    if (fs.existsSync(finalLocation)) {
+      const contents = fs.readFileSync(finalLocation)
+
+      finalInfo = JSON.parse(contents.toString())
+    }
+
+    this.name = finalInfo.name!
+    this.version = finalInfo.version!
+    this.json = finalInfo
 
     if (this.isRoot) {
       this.readDependencies(this.flatDependencies)
